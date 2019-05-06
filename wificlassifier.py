@@ -37,10 +37,10 @@ RESHAPE = 784
 DROPOUT = 0.1
 
 
-X_train = pd.read_csv('UAP_dataset_X.csv')
-y_train = pd.read_csv('UAP_dataset_y.csv')
-X_test = pd.read_csv('UAP_dataset_X.csv')
-y_test = pd.read_csv('UAP_dataset_y.csv')
+X_train = pd.read_csv('UAP_dataset_X_2.csv')
+y_train = pd.read_csv('UAP_dataset_y_2.csv')
+X_test = pd.read_csv('UAP_dataset_X_2.csv')
+y_test = pd.read_csv('UAP_dataset_y_2.csv')
 
 X_train = np.array(X_train)
 y_train = np.array(y_train)
@@ -49,8 +49,9 @@ y_test = np.array(y_test)
 
 print(X_train.shape[1])
 
-X_train = X_train[ : , 0:168]
-X_test = X_test [ : , 0:168]
+
+X_train = X_train[ : , 0:X_train.shape[1]-1]
+X_test = X_test [ : , 0:X_test.shape[1]-1]
 
 
 INPUT_DIM = X_train.shape[1]
@@ -66,8 +67,8 @@ le.fit(y_train)
 y_train = le.transform(y_train)
 y_test = le.transform(y_test)
 
-y_train = y_train.reshape(597, 1)
-y_test = y_test.reshape(597,1)
+y_train = y_train.reshape(y_train.shape[0], 1)
+y_test = y_test.reshape(y_test.shape[0],1)
 
 
 onehotencoder = OneHotEncoder(categorical_features = [0])
@@ -126,7 +127,7 @@ model = load_model(MODEL_NAME)
 model = create_model()
 BATCH_SIZE = 5
 history = model.fit(X_train, y_train, batch_size = BATCH_SIZE, 
-                    epochs = 50, verbose = VERBOSE, 
+                    epochs = 5, verbose = VERBOSE, 
                     validation_split=VALIDATION_SPLIT,
                     shuffle = True)
 
